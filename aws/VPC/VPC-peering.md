@@ -149,3 +149,50 @@ Communication will still be blocked by Security Groups (SGs) unless explicitly a
     * **Inbound (Ingress):** Add rules allowing necessary traffic (e.g., database port) with **Source** set to **VPC A's CIDR Block** (`10.1.0.0/16`).
 
 > **Best Practice:** When possible, reference the specific **Security Group ID** of the peer instance/resource instead of the entire CIDR block for tighter security.
+
+---
+
+## 🧪 Part 5: Test the Connectivity (EC2 and Ping)
+
+To fully test the connection, launch EC2 instances in both VPCs and ensure their security groups permit communication across the peering connection.
+
+### Step 5.1: Launch EC2 Instances
+
+1.  **Launch Instance in VPC A (Requester):**
+    * **Name:** `Test-Instance-A`
+    * **VPC/Subnet:** Select `VPC-A` and `VPC-A-Public-Subnet`.
+    * **Auto-assign Public IP:** **Enable** (for initial SSH access).
+    * **Security Group (SG):** Allow **SSH (Port 22)** from your IP and **ICMP (All)** from `10.2.0.0/16`.
+
+2.  **Launch Instance in VPC B (Accepter):**
+    * **Name:** `Test-Instance-B`
+    * **VPC/Subnet:** Select `VPC-B` and `VPC-B-Public-Subnet`.
+    * **Auto-assign Public IP:** **Enable**.
+    * **Security Group (SG):** Allow **SSH (Port 22)** from your IP and **ICMP (All)** from `10.1.0.0/16`.
+
+### Step 5.2: Test Peering Communication (Ping)
+
+1.  **Get the Private IP:** Note the **Private IP Address** of `Test-Instance-B` (e.g., `10.2.1.50`).
+2.  **Connect to Instance A:** SSH into `Test-Instance-A` using its **Public IP Address**.
+3.  **Perform the Test:** From the command line of `Test-Instance-A`, attempt to **ping** the **Private IP Address** of `Test-Instance-B`.
+
+    ```bash
+    ping 10.2.1.50
+    ```
+
+    * **Success:** You should see successful replies, confirming the VPC peering connection, routing, and security group rules are all configured correctly.
+        ```
+        64 bytes from 10.2.1.50: icmp_seq=1 ttl=62 time=0.854 ms
+        ```
+
+---
+
+## 🗑️ Cleanup Steps (Optional)
+
+1.  **Terminate EC2 Instances** in both VPCs.
+2.  **Delete Peering Connection** (`pcx-xxxxxxxx`).
+3.  **Delete Custom Routes** in both Route Tables (`VPC-A-Public-RT` and `VPC-B-Public-RT`) that reference the Peering ID.
+4.  **Disassociate and Delete Internet Gateways** (`VPC-A-IGW` and `VPC-B-IGW`).
+5.  **Delete Custom Route Tables** (`VPC-A-Public-RT` and `VPC-B-Public-RT`).
+6.  **Delete Subnets** (Public and Private) in both VPCs.
+7.  **Delete VPCs** (`VPC-A` and `VPC-B`).
