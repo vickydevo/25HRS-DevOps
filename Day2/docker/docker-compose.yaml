@@ -1,0 +1,7 @@
+services:
+  springboot:
+      image: springboot-test:30aug 
+      container_name: springboot-backend
+      ports: 
+        - "8083:8081"
+      restart: always 

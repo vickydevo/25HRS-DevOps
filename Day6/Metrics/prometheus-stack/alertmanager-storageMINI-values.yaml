@@ -1,0 +1,29 @@
+# alertmanager-storage-values.yaml
+
+# This section configures the Alertmanager StatefulSet storage
+alertmanager:
+  alertmanagerSpec:
+    # 1. Enable Persistence
+    storage:
+      volumeClaimTemplate:
+        spec:
+          # Define the access mode and size for the volume
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
+          # Use a StorageClass that provisions a HostPath volume
+          # We'll use the 'standard' StorageClass which often maps to HostPath on Minikube
+          # If this doesn't work, you may need a custom HostPath PV/PVC setup
+          storageClassName: "standard"
+
+    # 2. Add an explicit HostPath volume to map to your Ubuntu instance
+    # This is a common method for local testing environments (like Minikube)
+    # NOTE: In a real multi-node cluster, this is not recommended; you'd use a cloud/distributed storage.
+    # We will override the StatefulSet's volume template to use HostPath.
+    volumes:
+    - name: alertmanager-monitoring-kube-prometheus-alertmanager-db
+      hostPath:
+        # This path must exist on the underlying node (your minikube VM)
+        path: /home/ubuntu/alertmanager-data
+        type: DirectoryOrCreate

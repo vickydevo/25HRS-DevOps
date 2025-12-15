@@ -1,0 +1,7 @@
+terraform-scripts/project1/.gitignore
+terraform-scripts/project1/.terraform/
+terraform-scripts/project1/*.tfstate
+terraform-scripts/project1/*.tfstate.backup
+terraform-scripts/project1/override.tf
+terraform-scripts/project1/override.tf.json 
+terraform-scripts/project1/crash.log

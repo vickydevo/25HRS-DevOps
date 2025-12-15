@@ -1,0 +1,20 @@
+IAM 
+-----
+1.USER
+2.GROUPS
+3.POLICIES AND PERMISSION
+4.ROLES
+5.Activity: Examining IAM POLICIES 
+
+
+AMAZON S3 
+------------
+1.overview
+2. use cases
+3. Buckets , Objects 
+4. Storage Classes
+5. Demo : Transfer Accelearation & LCM 
+6. MOVing data to/from s3 
+7. versioning
+8. static website configuration
+applying well-Archetected pricipdles of s3
