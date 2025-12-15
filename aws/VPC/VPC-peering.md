@@ -86,7 +86,11 @@ This configures the Route Tables (RTs) to direct internet-bound traffic (`0.0.0.
 1.  Navigate to **VPC** > **Peering Connections** > **Create Peering Connection**.
 2.  **Name:** `A-to-B-Same-Region`
 3.  **VPC ID (Requester):** Select **VPC-A**.
+<img width="935" height="685" alt="Image" src="https://github.com/user-attachments/assets/206faf7d-8e67-48b0-88bc-11be4ebc0e3c" />
+
 4.  **VPC ID (Accepter):** Select **VPC-B** (Ensure *My account* and *This Region* are selected).
+<img width="1779" height="532" alt="Image" src="https://github.com/user-attachments/assets/f0ee5d63-db02-4b50-a221-3d8f3cce7d82" />
+
 5.  Click **Create Peering Connection**.
 
 > The status will be **`pending-acceptance`**.
@@ -94,7 +98,9 @@ This configures the Route Tables (RTs) to direct internet-bound traffic (`0.0.0.
 ### Step 2.2: Accept the Peering Connection (VPC B Side)
 
 1.  In the **Peering Connections** list, select the request.
-2.  Choose **Actions** > **Accept Request**.
+2.  Choose **Actions** > **Accept Request**..
+<img width="1801" height="343" alt="Image" src="https://github.com/user-attachments/assets/9c0652b4-6147-444e-a78e-a0293b23186e" />
+
 3.  Confirm the acceptance.
 
 > The status will transition to **`Active`**. Note the **Peering Connection ID** (`pcx-xxxxxxxx`).
@@ -113,8 +119,12 @@ Update every Route Table in VPC A that needs to communicate with VPC B (e.g., `V
 
 1.  Select the **Route Table** in VPC A.
 2.  Go to the **Routes** tab, click **Edit routes**, and **Add route**:
+   <img width="1643" height="627" alt="Image" src="https://github.com/user-attachments/assets/2ee8a970-6d9c-4d98-909f-a953efb91bb2" />
+
     * **Destination:** **VPC B's CIDR Block** (`10.2.0.0/16`).
     * **Target:** Select **Peering Connection** and choose the `pcx-xxxxxxxx` ID.
+    <img width="1882" height="545" alt="Image" src="https://github.com/user-attachments/assets/a6875e5d-702b-4562-a8bf-00d59cf6e307" />
+
 3.  Click **Save changes**.
 
 ### Step 3.2: Update VPC B Route Tables
@@ -133,6 +143,8 @@ Communication will still be blocked by Security Groups (SGs) unless explicitly a
 
 1.  **VPC A Security Group Rules:**
     * **Inbound (Ingress):** Add rules allowing necessary traffic (e.g., SSH, HTTP, ICMP) with **Source** set to **VPC B's CIDR Block** (`10.2.0.0/16`).
+    <img width="1796" height="647" alt="Image" src="https://github.com/user-attachments/assets/dd223f54-18a8-435e-af4b-82d8ac2f3064" />![alt text](image-1.png)
+
 2.  **VPC B Security Group Rules:**
     * **Inbound (Ingress):** Add rules allowing necessary traffic (e.g., database port) with **Source** set to **VPC A's CIDR Block** (`10.1.0.0/16`).
 
