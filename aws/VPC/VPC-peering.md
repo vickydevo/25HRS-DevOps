@@ -1,6 +1,10 @@
 # AWS VPC Peering Setup Guide (Same Region)
 
+
+
 This guide provides the complete, sequential steps to create two distinct VPCs with internet connectivity (public subnets) and establish a VPC Peering connection between them in the same AWS region.
+
+<img width="1500" height="480" alt="Image" src="https://github.com/user-attachments/assets/9bc3dd34-c3e2-4574-906e-89ec93580b48" />
 
 **Crucial Prerequisite:** The CIDR blocks for both VPCs **must not overlap**.
 
@@ -26,14 +30,16 @@ This guide provides the complete, sequential steps to create two distinct VPCs w
     * **Name tag:** `VPC-B`
     * **IPv4 CIDR block:** `10.2.0.0/16`
 
-### Step 1.2: Create Subnets
+<img width="1403" height="631" alt="Image" src="https://github.com/user-attachments/assets/b6090f00-7cc3-486d-9c90-c3e90c8db3c8" />
 
-For each VPC, create the necessary subnets, ensuring the CIDR blocks are contained within the main VPC CIDR.
+### Step 1.2: Create Subnets
 
 1.  **VPC A Subnets:** (Select **VPC-A** as the VPC ID)
     * Public: Name `VPC-A-Public-Subnet`, CIDR `10.1.1.0/24`
     * Private: Name `VPC-A-Private-Subnet`, CIDR `10.1.2.0/24`
 2.  **VPC B Subnets:** (Select **VPC-B** as the VPC ID)
+   <img width="1535" height="787" alt="Image" src="https://github.com/user-attachments/assets/c3290756-77ec-49e1-be72-e6079d77ce04" />
+
     * Public: Name `VPC-B-Public-Subnet`, CIDR `10.2.1.0/24`
 
 ### Step 1.3: Create and Attach Internet Gateways (IGWs)
@@ -46,6 +52,9 @@ An IGW is required for public subnets to communicate with the internet.
 2.  **VPC B IGW:**
     * Create an IGW: **Name:** `VPC-B-IGW`.
     * Select the IGW, choose **Actions** > **Attach to VPC**, and select **VPC-B**.
+    <img width="1870" height="281" alt="Image" src="https://github.com/user-attachments/assets/00eee67c-af97-4f09-aaea-9ad05a029413" />
+
+    <img width="1125" height="315" alt="Image" src="https://github.com/user-attachments/assets/f966bda9-1cbe-4c92-a541-db001d7f235d" />
 
 ### Step 1.4: Configure Public Subnet Routing
 
@@ -57,8 +66,16 @@ This configures the Route Tables (RTs) to direct internet-bound traffic (`0.0.0.
     * **Subnet Associations:** Associate with `VPC-A-Public-Subnet`.
 2.  **VPC B Public RT:**
     * Create a custom RT: **Name:** `VPC-B-Public-RT`, **VPC:** `VPC-B`.
+    <img width="1827" height="473" alt="Image" src="https://github.com/user-attachments/assets/16fcaf23-6861-4d17-8651-d1e2724b40f2" />
+
+
     * **Routes Tab:** Add route: **Destination** `0.0.0.0/0`, **Target** `VPC-B-IGW`.
+    <img width="1795" height="417" alt="Image" src="https://github.com/user-attachments/assets/36365718-2ec9-4d0a-a264-72aed07b1266" />
+
     * **Subnet Associations:** Associate with `VPC-B-Public-Subnet`.
+    <img width="1797" height="647" alt="Image" src="https://github.com/user-attachments/assets/6b03fec0-5387-4795-8f43-5c94ff0adc57" />
+
+    <img width="1772" height="492" alt="Image" src="https://github.com/user-attachments/assets/997077d2-9080-4209-887c-14bfbfe888c7" />
 
 ---
 
