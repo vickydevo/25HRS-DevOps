@@ -37,7 +37,7 @@ Jenkins is an open-source automation server that helps automate parts of softwar
 
 2. **Install Java**:
     ```bash
-    sudo apt install openjdk-11-jdk -y
+    sudo apt install fontconfig openjdk-21-jre
     ```
 
 3. **Add Jenkins Repository**:
