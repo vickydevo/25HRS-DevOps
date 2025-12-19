@@ -1,6 +1,6 @@
 Grafana UI (Default Password: prom-operator)
 ```bash
-kubectl port-forward service/monitoring-grafana -n monitoring 3000:80 --address 0.0.0.0
+kubectl port-forward service/monitoring-grafana -n monitoring 3000:80 --address 0.0.0.0 &
 ```
 Access URL: http://<EC2-Public-IP>:3000
 
